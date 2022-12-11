@@ -14,9 +14,14 @@ Console.WriteLine($"Значение равно {Test.Num}");
 public class Test
 {
     public static int Num { get; set; } = 0;
+    static object locker = new();
     public static void Increment()
     {
-        Num++;
-        //Console.WriteLine(Num);
+        lock (locker)
+        {
+            Num++;
+            Console.WriteLine(Num);
+        }
+
     }
 }
