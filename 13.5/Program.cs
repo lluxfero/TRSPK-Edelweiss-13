@@ -1,39 +1,53 @@
 ﻿
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
-long sum, cur;
+long sum;
+const int SUMTO = 1000000;
+int i = 1;
 object locker = new object();
 Stopwatch timer = new();
-for (int i = 1; i <= 100; i++)
+List<Thread> threads = new();
+
+
+for (i = 1; i <= 100; i++)
 {
-    sum = 0;
-    cur = 1;
+    sum = 0;   
+    for (int j = 0; j < i; j++)
+    {
+        Thread thread = new(Add);
+        thread.Name = $"Thread {j}";
+        threads.Add(thread);
+    }
+
     timer.Restart();
     for (int j = 0; j < i; j++)
     {
-        Thread thread = new Thread(Add)
-        {
-            Name = "Thread" + j
-        };
-        thread.Start();
+        threads[j].Start(j); // выполняем все потоки
     }
-    Thread.Sleep(1000);
+    //for (int j = 0; j < i; j++)
+    //{
+    //    threads[j].Join();
+    //}
+    //foreach (var t in threads) t.Join(); // ждем выполнения всех потоков 
+    Thread.Sleep(300);
     timer.Stop();
     TimeSpan ts = timer.Elapsed;
-    Console.WriteLine($"Потоков: {i} --> Время: {ts.Milliseconds} --> Результат: {sum}");
+    Console.WriteLine($"Потоков: {i} --> Время: {ts.Milliseconds - 300} --> Результат: {sum}");
+    threads.Clear();
 }
 
-void Add()
+void Add(object obj)
 {
-    while (cur <= 1000000)
+    int cur = (int)obj * SUMTO / i + 1;
+    long local_sum = 0;
+    while (cur <= ((int)obj + 1) * SUMTO / i)
     {
-        lock (locker)
-        {
-            if (cur <= 1000000)
-            {
-                sum += cur;
-                cur++;
-            }
-        }
+        local_sum += cur;
+        cur++;
+    }
+    lock (locker)
+    {
+        sum += local_sum;
     }
 }
