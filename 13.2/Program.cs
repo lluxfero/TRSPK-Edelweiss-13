@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 
 Stopwatch sw = Stopwatch.StartNew();
-var signal = new AutoResetEvent(false);
+var signal = new Semaphore(0, 4);
 
 ThreadPool.QueueUserWorkItem(delegate
 {
@@ -35,7 +35,7 @@ Thread.Sleep(50);
 // Посылаем сигнал всем потокам проснуться
 for (int i = 0; i < 4; i++)
 {
-    signal.Set();
+    signal.Release();
 }
 
 Thread.Sleep(100);
