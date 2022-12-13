@@ -25,15 +25,15 @@ for (i = 1; i <= 100; i++)
     {
         threads[j].Start(j); // выполняем все потоки
     }
-    //for (int j = 0; j < i; j++)
-    //{
-    //    threads[j].Join();
-    //}
-    //foreach (var t in threads) t.Join(); // ждем выполнения всех потоков 
-    Thread.Sleep(300);
+    /*for (int j = 0; j < i; j++)
+    {
+        threads[j].Join();
+    }
+    //foreach (var t in threads) t.Join(); // ждем выполнения всех потоков */
+    foreach (var t in threads) t.Join();
     timer.Stop();
     TimeSpan ts = timer.Elapsed;
-    Console.WriteLine($"Потоков: {i} --> Время: {ts.Milliseconds - 300} --> Результат: {sum}");
+    Console.WriteLine($"Потоков: {i} --> Время: {ts.Milliseconds} --> Результат: {sum}");
     threads.Clear();
 }
 

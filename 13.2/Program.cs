@@ -33,10 +33,11 @@ ThreadPool.QueueUserWorkItem(delegate
 // Гарантированное время запуска всех потоков
 Thread.Sleep(50);
 // Посылаем сигнал всем потокам проснуться
-for (int i = 0; i < 4; i++)
-{
-    signal.Release();
-}
+//for (int i = 0; i < 4; i++)
+//{
+//    signal.Release();
+//}
+signal.Release(4);
 
 Thread.Sleep(100);
 

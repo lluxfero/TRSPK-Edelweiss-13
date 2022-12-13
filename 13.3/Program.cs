@@ -20,7 +20,6 @@ public class Test
         lock (locker)
         {
             Num++;
-            Console.WriteLine(Num);
         }
 
     }

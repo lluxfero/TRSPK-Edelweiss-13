@@ -11,8 +11,8 @@ Thread.Sleep(333);
 t2.Start(2);
 Thread.Sleep(333);
 t3.Start(3);
-t1.Join();
-t2.Join();
+t1.Join(); 
+t2.Join(); 
 t3.Join();
 
 void Identify(object obj)
@@ -20,8 +20,12 @@ void Identify(object obj)
     int id = (int)obj;
     while (true)
     {
-        Console.Write($"{id}-");
-        Thread.Sleep(TimeSpan.FromSeconds(1));
+        lock (locker)
+        {
+            Console.Write($"{id}-");
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+        }
+        
     }
 }
 
