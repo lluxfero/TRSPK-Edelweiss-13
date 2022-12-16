@@ -1,6 +1,6 @@
 ﻿List<Thread> threads = new();
-Random rnd = new((int)DateTime.Now.Ticks);
-Test.sleeptime = rnd.Next(1000, 10000);
+//Random rnd = new((int)DateTime.Now.Ticks);
+//Test.sleeptime = rnd.Next(1000, 10000);
 
 
 for (int i = 0; i < 10; i++)
@@ -28,7 +28,9 @@ public class Test
         //while (!Signal) 
             //Thread.Sleep(1000); // гибрид блокирования и ожидания в цикле
         Console.WriteLine($"поток {Thread.CurrentThread.Name} завершается");
-        Thread.Sleep(sleeptime);
+        Random rnd = new((int)DateTime.Now.Ticks); 
+        Thread.Sleep(rnd.Next(1000, 10000));
+        //Thread.Sleep(sleeptime);
         t = DateTime.Now.Ticks;
         Console.WriteLine($"поток {Thread.CurrentThread.Name} завершился в {t}");
     }
